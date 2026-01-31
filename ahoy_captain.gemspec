@@ -26,18 +26,21 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ahoy_matey", ">= 1.1"
   spec.add_dependency "chartkick", ">= 4"
   spec.add_dependency "groupdate", ">= 5"
-  spec.add_dependency "pagy", ">= 4"
+  spec.add_dependency "pagy", ">= 9"
   spec.add_dependency "rubyzip"
 
   spec.add_development_dependency "rails", ">= 6"
   spec.add_development_dependency "sprockets-rails"
   spec.add_development_dependency "better_errors"
   spec.add_development_dependency "binding_of_caller"
-  spec.add_development_dependency "sassc"
   spec.add_development_dependency "puma"
   spec.add_development_dependency "pg"
   spec.add_development_dependency 'factory_bot_rails'
   spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'base64'
+  spec.add_development_dependency 'bigdecimal'
+  spec.add_development_dependency 'mutex_m'
+  spec.add_development_dependency 'drb'
   spec.add_development_dependency 'pry-rails'
   spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'simplecov'

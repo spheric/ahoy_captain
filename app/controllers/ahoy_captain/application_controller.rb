@@ -39,13 +39,15 @@ module AhoyCaptain
     def act_like_an_spa
       if request.format.html? && request.headers['Turbo-Frame'].blank?
         if request.path != root_path
-          requested_params = Rails.application.routes.recognize_path(request.path).except(:controller, :action)
+          requested_params = AhoyCaptain::Engine.routes.recognize_path(request.path).except(:controller, :action)
           params.merge!(requested_params)
           unless params[:debug]
             render template: 'ahoy_captain/roots/show'
           end
         end
       end
+    rescue ActionController::RoutingError
+      # Path not recognized by engine routes, ignore
     end
 
     def visit_query
@@ -59,7 +61,7 @@ module AhoyCaptain
     # Only paginate details requests requests
     def paginate(collection)
       if paginate?
-        pagy, results = pagy(collection, page: params[:page])
+        pagy, results = pagy(:offset, collection, page: params[:page])
         @pagination = pagy
         return results
       end

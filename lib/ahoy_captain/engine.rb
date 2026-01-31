@@ -34,9 +34,11 @@ module AhoyCaptain
     isolate_namespace ::AhoyCaptain
 
     initializer "ahoy_captain.precompile" do |app|
-      app.config.assets.paths << AhoyCaptain::Engine.root.join("app/javascript")
-      app.config.assets.paths << AhoyCaptain::Engine.root.join("app/images")
-      app.config.assets.precompile << "ahoy_captain/application.js"
+      if app.config.respond_to?(:assets)
+        app.config.assets.paths << AhoyCaptain::Engine.root.join("app/javascript")
+        app.config.assets.paths << AhoyCaptain::Engine.root.join("app/images")
+        app.config.assets.precompile << "ahoy_captain/application.js"
+      end
     end
 
     ActiveSupport.on_load(:active_record) do
