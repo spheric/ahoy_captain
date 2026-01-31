@@ -6,6 +6,7 @@ PATH
       chartkick (>= 4)
       groupdate (>= 5)
       importmap-rails (>= 2)
+      ostruct
       pagy (>= 9)
       rails (>= 6)
       ransack (>= 2.3)
@@ -180,6 +181,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.0-x86_64-linux-musl)
       racc (~> 1.4)
+    ostruct (0.6.3)
     pagy (43.2.8)
       json
       yaml

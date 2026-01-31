@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "groupdate", ">= 5"
   spec.add_dependency "pagy", ">= 9"
   spec.add_dependency "rubyzip"
+  spec.add_dependency "ostruct"
 
   spec.add_development_dependency "rails", ">= 6"
   spec.add_development_dependency "sprockets-rails"
