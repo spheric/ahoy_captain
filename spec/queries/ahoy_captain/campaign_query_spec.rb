@@ -34,13 +34,12 @@ RSpec.describe AhoyCaptain::CampaignQuery do
   end
 
   describe '#build' do
-    subject(:query) { described_class.new(params) }
-
     let(:base_params) do
       {
         start_date: 30.days.ago,
         end_date: Time.current,
-        period: '30d'
+        period: '30d',
+        controller: 'ahoy_captain/campaigns'
       }
     end
 
@@ -48,7 +47,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: 'utm_source') }
 
       it 'uses the specified campaign type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('utm_source')
       end
@@ -58,7 +57,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: 'utm_campaign') }
 
       it 'uses the specified campaign type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('utm_campaign')
       end
@@ -68,7 +67,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: "'; DROP TABLE users; --") }
 
       it 'defaults to utm_source' do
-        result = query.call
+        result = described_class.call(params)
         sql = result.to_sql
 
         expect(sql).to include('utm_source')
@@ -80,7 +79,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: 'invalid_column') }
 
       it 'defaults to utm_source' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('utm_source')
         expect(result.to_sql).not_to include('invalid_column')
@@ -91,7 +90,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: nil) }
 
       it 'defaults to utm_source' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('utm_source')
       end
@@ -101,7 +100,7 @@ RSpec.describe AhoyCaptain::CampaignQuery do
       let(:params) { base_params.merge(campaigns_type: '') }
 
       it 'defaults to utm_source' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('utm_source')
       end

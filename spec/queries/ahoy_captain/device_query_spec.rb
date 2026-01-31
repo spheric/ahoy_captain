@@ -26,13 +26,12 @@ RSpec.describe AhoyCaptain::DeviceQuery do
   end
 
   describe '#build' do
-    subject(:query) { described_class.new(params) }
-
     let(:base_params) do
       {
         start_date: 30.days.ago,
         end_date: Time.current,
-        period: '30d'
+        period: '30d',
+        controller: 'ahoy_captain/devices'
       }
     end
 
@@ -40,7 +39,7 @@ RSpec.describe AhoyCaptain::DeviceQuery do
       let(:params) { base_params.merge(devices_type: 'browser') }
 
       it 'uses the specified device type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('browser')
       end
@@ -50,7 +49,7 @@ RSpec.describe AhoyCaptain::DeviceQuery do
       let(:params) { base_params.merge(devices_type: 'os') }
 
       it 'uses the specified device type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('"os"')
       end
@@ -60,7 +59,7 @@ RSpec.describe AhoyCaptain::DeviceQuery do
       let(:params) { base_params.merge(devices_type: "'; DROP TABLE visits; --") }
 
       it 'defaults to device_type' do
-        result = query.call
+        result = described_class.call(params)
         sql = result.to_sql
 
         expect(sql).to include('device_type')
@@ -72,7 +71,7 @@ RSpec.describe AhoyCaptain::DeviceQuery do
       let(:params) { base_params.merge(devices_type: 'hacked_column') }
 
       it 'defaults to device_type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('device_type')
         expect(result.to_sql).not_to include('hacked_column')
@@ -83,7 +82,7 @@ RSpec.describe AhoyCaptain::DeviceQuery do
       let(:params) { base_params.merge(devices_type: nil) }
 
       it 'defaults to device_type' do
-        result = query.call
+        result = described_class.call(params)
 
         expect(result.to_sql).to include('device_type')
       end
