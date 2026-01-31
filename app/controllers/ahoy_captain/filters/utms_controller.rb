@@ -1,8 +1,11 @@
 module AhoyCaptain
   module Filters
     class UtmsController < BaseController
+      ALLOWED_TYPES = %w[utm_source utm_medium utm_term utm_content utm_campaign].freeze
+
       def index
-        query = visit_query.select("#{params[:type]}", "count(#{params[:type]}) as total").group(params[:type]).order(Arel.sql "count(#{params[:type]}) desc").pluck(params[:type]).map { |city| serialize(city) }
+        type = ALLOWED_TYPES.include?(params[:type]) ? params[:type].to_sym : :utm_source
+        query = visit_query.select(type, Arel.sql("count(#{type}) as total")).group(type).order(Arel.sql("count(#{type}) desc")).pluck(type).map { |city| serialize(city) }
         render json: query
       end
     end
