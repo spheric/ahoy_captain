@@ -15,7 +15,7 @@ module AhoyCaptain
         end
 
         def ransackable_associations(auth = nil)
-          super + ["events"]
+          %w[events]
         end
       end
     end
