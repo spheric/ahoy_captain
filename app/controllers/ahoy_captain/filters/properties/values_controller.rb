@@ -3,6 +3,8 @@ module AhoyCaptain
     module Properties
       class ValuesController < BaseController
         def index
+          return render json: [] if params[:q].blank?
+
           param_key = params[:q].to_unsafe_h.detect { |k,v| k.ends_with?("_i_cont") && k.starts_with?("properties.") }&.first
           return render json: [] if param_key.nil?
 

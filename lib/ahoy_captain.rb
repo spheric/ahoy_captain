@@ -1,3 +1,4 @@
+require "ostruct"
 require "ahoy_captain/version"
 require "ahoy_captain/railtie"
 require "ahoy_captain/engine"
