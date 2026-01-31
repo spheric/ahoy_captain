@@ -37,15 +37,14 @@ module AhoyCaptain
       end
 
       def percentage
-        begin
-          diff = value.current - value.compared_to
-          if diff.zero?
-            return 0
-          end
-          (value.current / diff).round(2) * 100
-        rescue ZeroDivisionError
-          0
-        end
+        return 0 if value.current.nil? || value.compared_to.nil?
+
+        diff = value.current - value.compared_to
+        return 0 if diff.zero?
+
+        (value.current / diff).round(2) * 100
+      rescue ZeroDivisionError
+        0
       end
 
       def number_to_duration(duration)
@@ -69,7 +68,9 @@ module AhoyCaptain
       end
 
       def tooltip
-        "#{formatted(value.current)} vs #{formatted(value.compared_to)} — #{number_to_percentage percentage} (#{arrow}) "
+        current = value.current || 0
+        compared = value.compared_to || 0
+        "#{formatted(current)} vs #{formatted(compared)} — #{number_to_percentage percentage} (#{arrow}) "
       end
 
       def formatted(value)
